@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Revenue Reps</title>
+<style>
+:root{--bg:#f4f7fc;--card:#fff;--ink:#2b2b2b;--ink0:#000000;--mute:#6b7a99;--line:#dfe7f5;--blue:#2563ff;--blue2:#5b8dff;--soft:#e8efff;--red:#e5484d;--grn:#16a34a;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1020;--card:#111a30;--ink:#ffffff;--ink0:#ffffff;--mute:#8a99ba;--line:#1e2a47;--soft:#16254a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0a1020;--card:#111a30;--ink:#ffffff;--ink0:#ffffff;--mute:#8a99ba;--line:#1e2a47;--soft:#16254a;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;padding:14px}
+.wrap{max-width:460px;margin:0 auto;display:grid;gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.lbl{font-size:12px;color:var(--mute);font-weight:700}
+h2{margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em}
+em{color:var(--mute);font-size:12px}
+.btn{background:var(--soft);color:var(--blue);border:0;border-radius:10px;padding:6px 10px;font-weight:700;font-size:12px;cursor:pointer}
+.btn.pri{background:var(--blue);color:#fff}
+.seg{display:inline-flex;background:var(--soft);border-radius:10px;padding:2px}
+.seg button{border:0;background:none;color:var(--mute);font-weight:700;font-size:12px;padding:5px 10px;border-radius:8px;cursor:pointer}
+.seg button.on{background:var(--card);color:var(--blue)}
+.bar{height:12px;background:var(--soft);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--blue2));transition:width .4s}
+.ringw{display:grid;place-items:center;position:relative;width:140px;height:140px;margin:0 auto}
+.ringw svg{transform:rotate(-90deg)}
+.ringw div{position:absolute;text-align:center}
+.ringw b{font-size:30px;display:block;line-height:1}
+.go{color:var(--ink);font-weight:700;font-size:14px;margin-top:10px;text-align:center}
+.rg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.rc{padding:12px;cursor:pointer;display:grid;gap:8px;align-content:start;user-select:none;min-height:104px;border-radius:16px}
+.rc.on{border-color:var(--blue)}
+.dr{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end}
+.dn b{font-size:26px;font-weight:800;color:var(--ink);line-height:1;letter-spacing:-.02em}
+.dn small{display:block;font-size:10px;color:var(--mute);margin-top:2px}
+.name{font-size:13px;font-weight:600;overflow-wrap:anywhere}
+.pill{font-size:10px;font-weight:700;border-radius:99px;padding:3px 8px;background:var(--soft);color:var(--blue);justify-self:start}
+.pill.d{background:#dcfce7;color:var(--grn)}
+.addc{border:2px dashed var(--line);background:none;color:var(--blue);font-weight:700;font-size:13px;border-radius:16px;cursor:pointer;min-height:104px}
+.tm{font-size:44px;font-weight:800;text-align:center;margin:6px 0 8px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.ctr{display:flex;gap:8px;justify-content:center}
+.item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+.item .t{display:flex;align-items:center;gap:10px;flex:1;cursor:pointer;user-select:none}
+.box{width:22px;height:22px;border-radius:7px;border:2px solid var(--blue2);flex:none;display:grid;place-items:center;color:#fff;font-size:14px}
+.item.d .box{background:var(--blue);border-color:var(--blue)}
+.item.d span{text-decoration:line-through;color:var(--mute)}
+input,select{width:100%;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:9px;font:inherit;font-size:14px}
+.f{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.f label,.fl{font-size:11px;color:var(--mute);font-weight:700;display:grid;gap:4px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.st b{display:block;font-size:24px;font-weight:800;color:var(--ink);letter-spacing:-.02em}
+.st span{font-size:12px;color:var(--mute)}
+.log{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}
+.log:last-child{border-bottom:0}
+.sub{color:var(--mute);font-size:13px}
+.amt h2,.amt .go,.amt .ringw b{color:var(--ink0)}
+.amt .bar i{background:var(--ink0)}
+.amt .btn{color:var(--ink0)}
+.amt .btn.pri{background:var(--ink0);color:var(--card)}
+.amt .seg button.on{color:var(--ink0)}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+(function(){
+const KEY="rr_v1",app=document.getElementById("app");
+const ymd=d=>{const m=d.getMonth()+1,x=d.getDate();return d.getFullYear()+"-"+(m<10?"0":"")+m+"-"+(x<10?"0":"")+x};
+const today=()=>ymd(new Date());
+const addD=n=>{const d=new Date();d.setDate(d.getDate()+n);return d};
+const dnum=s=>{const p=s.split("-");return Math.round(new Date(+p[0],+p[1]-1,+p[2])/864e5)};
+const uid=()=>Math.random().toString(36).slice(2,9);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const def={type:"Leads",custom:"Calls",targetTxt:"100",wk:10,days:5,view:"bar",sessions:[],log:[]};
+let S;try{S=JSON.parse(localStorage.getItem(KEY))||def}catch(e){S=def}
+for(const k in def)if(S[k]===undefined)S[k]=def[k];
+if(S.target!==undefined){S.targetTxt=(S.type==="Sales"?(S.cur||""):"")+S.target;delete S.target;delete S.cur}
+S.sessions.forEach(s=>{if(s.done&&!s.doneOn)s.doneOn=s.date;delete s.result});
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+let open=null,editG=false,ck="res",cr="day",lt="reps",T={id:null,end:0,left:0,run:false};
+const tgt=()=>{const m=String(S.targetTxt).match(/^\s*([^\d.\-]*?)\s*(-?[\d,]*\.?\d+)\s*(.*)$/);if(!m)return{n:0,pre:"",suf:""};const n=parseFloat(m[2].replace(/,/g,""))||0;return S.type==="Leads"?{n,pre:"",suf:""}:{n,pre:m[1].trim(),suf:m[3].trim()}};
+const label=()=>S.type==="Custom"?(S.custom||"Custom").toLowerCase():S.type.toLowerCase();
+const fmt=n=>{const t=tgt();n=+n||0;return(n<0?"-":"")+t.pre+Math.abs(n).toLocaleString("en-US",{maximumFractionDigits:2})+(t.suf?(t.suf.length<=2?"":" ")+t.suf:"")};
+const cmp=n=>Math.abs(n)>=1000?(Math.round(n/100)/10)+"k":String(Math.round(n*10)/10);
+const nice=v=>{if(v<=0)return 4;const e=Math.pow(10,Math.floor(Math.log10(v))),f=v/e;return(f<=1?1:f<=2?2:f<=5?5:10)*e};
+const made=()=>S.log.reduce((a,l)=>a+l.amt,0);
+const dur=m=>{const h=Math.floor(m/60),r=m%60,p=[];if(h)p.push([h,h===1?"hour":"hours"]);if(r||!h)p.push([r,r===1?"min":"mins"]);return p};
+const durH=m=>dur(m).map(x=>`<span class="dn"><b>${x[0]}</b><small>${x[1]}</small></span>`).join("");
+const durT=m=>dur(m).map(x=>x[0]+" "+x[1]).join(" ");
+const fmtT=s=>{s=Math.max(0,Math.round(s));const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60,p=n=>(n<10?"0":"")+n;return(h?h+":":"")+p(m)+":"+p(x)};
+const reps=()=>{const t=today();S.sessions.forEach(s=>{if(!s.done&&s.date<t)s.date=t});return S.sessions.filter(s=>s.date===t)};
+const find=id=>S.sessions.find(s=>s.id===id);
+function series(kind,range){
+  const done=S.sessions.filter(s=>s.done),out=[],val=(a,b)=>kind==="res"?S.log.filter(l=>dnum(l.date)>=a&&dnum(l.date)<=b).reduce((x,l)=>x+l.amt,0):done.filter(s=>dnum(s.doneOn)>=a&&dnum(s.doneOn)<=b).length;
+  const t=dnum(today());
+  if(range==="day"){for(let j=6;j>=0;j--){const d=addD(-j);out.push({l:["Su","Mo","Tu","We","Th","Fr","Sa"][d.getDay()],v:val(t-j,t-j)})}}
+  else{for(let w=5;w>=0;w--){out.push({l:addD(-7*w).toLocaleDateString(undefined,{day:"numeric",month:"short"}),v:val(t-7*w-6,t-7*w)})}}
+  return out}
+function chart(data,title){
+  const W=300,H=160,L=36,R=6,Tp=10,B=24,pw=W-L-R,ph=H-Tp-B,bw=pw/data.length,top=nice(Math.max(0,...data.map(d=>d.v)));
+  let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${esc(title)}">`;
+  [0,.5,1].forEach(f=>{const y=Tp+ph*(1-f);s+=`<line x1="${L}" x2="${W-R}" y1="${y}" y2="${y}" stroke="var(--line)"/><text x="${L-4}" y="${y+3}" text-anchor="end" font-size="9" fill="var(--mute)">${cmp(top*f)}</text>`});
+  s+=`<line x1="${L}" x2="${L}" y1="${Tp}" y2="${Tp+ph}" stroke="var(--mute)"/><line x1="${L}" x2="${W-R}" y1="${Tp+ph}" y2="${Tp+ph}" stroke="var(--mute)"/>`;
+  data.forEach((d,i)=>{const h=Math.max(d.v,0)/top*ph,x=L+i*bw+bw*.18,cx=L+i*bw+bw/2;s+=`<rect x="${x}" y="${Tp+ph-h}" width="${bw*.64}" height="${h}" rx="3" fill="var(--blue2)"/>`+(d.v?`<text x="${cx}" y="${Tp+ph-h-3}" text-anchor="middle" font-size="9" fill="var(--ink)">${cmp(d.v)}</text>`:"")+`<text x="${cx}" y="${H-8}" text-anchor="middle" font-size="9" fill="var(--mute)">${d.l}</text>`});
+  return s+"</svg>"}
+function stats(){
+  const done=S.sessions.filter(s=>s.done),mins=done.reduce((a,s)=>a+s.mins,0),m=made(),n=tgt().n,t=dnum(today());
+  const days={};done.forEach(s=>{days[s.doneOn]=1});
+  let st=0,i=days[today()]?0:1;while(days[ymd(addD(-i))]){st++;i++}
+  const wk=done.filter(s=>dnum(s.doneOn)>=t-6).reduce((a,s)=>a+s.mins,0)/60,left=Math.max(n-m,0);
+  let proj="";
+  if(m>0&&S.log.length){const first=Math.min(...S.log.map(l=>dnum(l.date))),pace=m/Math.max(t-first+1,1);proj=left===0?"Goal hit":addD(Math.ceil(left/pace)).toLocaleDateString(undefined,{day:"numeric",month:"short"})}
+  return{hrs:mins/60,n:done.length,tot:S.sessions.length,st,wk,left,proj,done}}
+function render(){
+  const m=made(),t=tgt(),p=t.n>0?Math.min(Math.max(m,0)/t.n,1):0,X=stats(),ty=label(),list=reps();
+  let h=`<div class="card amt"><div class="row"><div><h2>Amount: ${fmt(t.n)}</h2><em>${t.suf?"":ty+" "}needed to hit the goal</em></div><button class="btn" data-a="eg">${editG?"Done":"Edit"}</button></div>`;
+  if(editG)h+=`<div class="f"><label>Type<select data-g="type">${["Leads","Sales","Custom"].map(o=>`<option${S.type===o?" selected":""}>${o}</option>`).join("")}</select></label>${S.type==="Custom"?`<label>Metric name<input data-g="custom" value="${esc(S.custom)}" placeholder="e.g. Calls booked"></label>`:""}<label>Target<input data-g="targetTxt" value="${esc(S.targetTxt)}" placeholder="e.g. $10,000 or 50 calls"></label><label>Hours per week<input type="number" min="1" data-g="wk" value="${S.wk}"></label><label>Days per week<input type="number" min="1" max="7" data-g="days" value="${S.days}"></label></div><div class="sub" style="margin-top:8px">${S.type==="Leads"?"Leads are a plain number. ":"Add a symbol or letters, like $10,000 or R5000. "}New reps default to ${Math.max(5,Math.round(S.wk*60/Math.max(S.days,1)))} min so your weekly hours add up.</div>`;
+  else{h+=`<div class="row" style="margin:14px 0 10px"><span class="lbl">${fmt(m)} ${t.suf?"":ty+" "}made</span><span class="seg"><button data-a="v" data-v="bar" class="${S.view==="bar"?"on":""}">Bar</button><button data-a="v" data-v="ring" class="${S.view==="ring"?"on":""}">Ring</button></span></div>`;
+    if(S.view==="ring"){const c=2*Math.PI*58;h+=`<div class="ringw"><svg width="140" height="140"><circle cx="70" cy="70" r="58" fill="none" stroke="var(--soft)" stroke-width="12"/><circle cx="70" cy="70" r="58" fill="none" stroke="var(--ink0)" stroke-width="12" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-p)}"/></svg><div><b>${Math.round(p*100)}%</b><em>complete</em></div></div>`}
+    else h+=`<div class="bar"><i style="width:${p*100}%"></i></div>`;
+    h+=`<div class="go">${X.left===0&&t.n>0?"Goal hit! 🔵":fmt(X.left)+" left to go!"}</div><div class="row" style="margin-top:12px"><input type="number" step="any" data-q placeholder="${S.type==="Sales"?"Log a sale, e.g. 500":"Log "+ty+", e.g. 3"}"><button class="btn pri" data-a="lg" style="padding:10px 14px">Log</button></div><div class="sub" style="margin-top:6px">Use a minus to take one off, e.g. -200.</div>`}
+  h+=`</div><div class="row" style="padding:0 4px"><span class="lbl">Today’s reps</span><span class="lbl">${list.filter(s=>s.done).length} / ${list.length} done · max 6</span></div><div class="rg">`;
+  list.forEach(s=>{h+=`<div class="card rc${open===s.id?" on":""}" data-a="tg" data-s="${s.id}"><div class="dr">${durH(s.mins)}</div><div class="name">${esc(s.task)}</div><span class="pill${s.done?" d":""}">${s.done?"Done":"Pending"}</span></div>`});
+  if(list.length<6)h+=`<button class="addc" data-a="add">+ Add rep</button>`;
+  h+=`</div>`;
+  const o=list.find(s=>s.id===open);
+  if(o){h+=`<div class="card"><div class="tm" id="tm">${fmtT(T.id===o.id?T.left:o.mins*60)}</div><div class="ctr"><button class="btn pri" data-a="go" data-s="${o.id}">${T.id===o.id&&T.run?"Pause":"Start"}</button><button class="btn" data-a="rs" data-s="${o.id}">Reset</button></div>
+  <div class="f"><label>Rep name<input data-s="${o.id}" data-f="task" value="${esc(o.task)}"></label><label>Minutes (${durT(o.mins)})<input type="number" min="1" data-s="${o.id}" data-f="mins" value="${o.mins}"></label></div>
+  <div class="lbl" style="margin-top:16px">Checklist</div><div>`;
+    o.items.forEach((it,i)=>{h+=`<div class="item${it.d?" d":""}"><div class="t" data-a="ck" data-s="${o.id}" data-i="${i}"><div class="box">${it.d?"✓":""}</div><span>${esc(it.t)}</span></div><button class="btn" data-a="di" data-s="${o.id}" data-i="${i}">×</button></div>`});
+    h+=`</div><div class="row" style="margin-top:10px"><input data-add="${o.id}" placeholder="Add a checklist item"><button class="btn pri" data-a="ai" data-s="${o.id}" style="padding:10px 14px">Add</button></div>
+  <div class="row" style="margin-top:12px;gap:8px">${o.done?"":`<button class="btn pri" style="flex:1;padding:10px" data-a="fin" data-s="${o.id}">Mark done</button>`}<button class="btn" style="padding:10px" data-a="dl" data-s="${o.id}">Delete rep</button></div></div>`}
+  h+=`<div class="card"><div class="lbl">Analytics</div><div class="grid" style="margin-top:12px">`;
+  [[X.hrs.toFixed(1),"hours logged"],[X.n+" / "+X.tot,"reps done"],[X.st,"day streak"],[X.proj||"–","projected finish"],[X.wk.toFixed(1)+" / "+S.wk,"hours this week"],[X.tot?Math.round(X.n/X.tot*100)+"%":"–","reps completed"]].forEach(c=>{h+=`<div class="st"><b>${c[0]}</b><span>${c[1]}</span></div>`});
+  const ttl=(ck==="res"?ty.charAt(0).toUpperCase()+ty.slice(1):"Reps")+" per "+(cr==="day"?"day":"week");
+  h+=`</div><div class="bar" style="margin-top:14px"><i style="width:${Math.min(X.wk/Math.max(S.wk,1),1)*100}%"></i></div>
+  <div class="row" style="margin-top:16px;flex-wrap:wrap"><span class="seg"><button data-a="ct" data-v="res" class="${ck==="res"?"on":""}">${esc(ty.charAt(0).toUpperCase()+ty.slice(1))}</button><button data-a="ct" data-v="rep" class="${ck==="rep"?"on":""}">Reps</button></span><span class="seg"><button data-a="cr" data-v="day" class="${cr==="day"?"on":""}">Daily</button><button data-a="cr" data-v="week" class="${cr==="week"?"on":""}">Weekly</button></span></div>
+  <div class="sub" style="margin:10px 0 2px">${esc(ttl)}</div>${chart(series(ck,cr),ttl)}</div>
+  <div class="card"><div class="row" style="margin-bottom:6px"><span class="seg"><button data-a="lt" data-v="reps" class="${lt==="reps"?"on":""}">Rep log</button><button data-a="lt" data-v="sales" class="${lt==="sales"?"on":""}">${esc(S.type==="Sales"?"Sales":ty.charAt(0).toUpperCase()+ty.slice(1))} log</button></span></div>`;
+  if(lt==="reps"){const lg=X.done.slice().sort((a,b)=>a.doneOn<b.doneOn?1:-1).slice(0,12);
+    if(!lg.length)h+=`<div class="sub">Finish a rep and it shows up here.</div>`;
+    lg.forEach(s=>{h+=`<div class="log"><span>${esc(s.task)}<br><span class="sub">${s.doneOn}</span></span><b>${durT(s.mins)}</b></div>`})}
+  else{const lg=S.log.slice().sort((a,b)=>a.date<b.date?1:-1).slice(0,12);
+    if(!lg.length)h+=`<div class="sub">Log a result with the box at the top and it shows up here.</div>`;
+    lg.forEach(l=>{h+=`<div class="log"><span>${l.amt<0?"Adjustment":"Logged"}<br><span class="sub">${l.date}</span></span><span><b>${l.amt<0?"":"+"}${fmt(l.amt)}</b> <button class="btn" data-a="rm" data-l="${l.id}">×</button></span></div>`})}
+  h+=`</div>`;app.innerHTML=h}
+const auto=s=>{const d=s.items.length>0&&s.items.every(i=>i.d);if(d&&!s.done){s.done=true;s.doneOn=today()}else if(!d&&s.done){s.done=false;delete s.doneOn}};
+const logAmt=()=>{const i=document.querySelector("[data-q]"),v=parseFloat(i&&i.value);if(!v)return;S.log.push({id:uid(),date:today(),amt:v})};
+const addItem=id=>{const i=document.querySelector('[data-add="'+id+'"]'),s=find(id);if(!s||!i||!i.value.trim())return;s.items.push({t:i.value.trim(),d:false});auto(s)};
+setInterval(()=>{if(!T.run)return;T.left=(T.end-Date.now())/1000;const e=document.getElementById("tm");
+  if(T.left<=0){T.run=false;T.left=0;if(e)e.textContent="Time’s up";render();return}
+  if(e)e.textContent=fmtT(T.left)},400);
+document.addEventListener("click",e=>{
+  const el=e.target.closest("[data-a]");if(!el)return;const a=el.dataset.a,s=find(el.dataset.s);
+  if(a==="eg")editG=!editG;
+  else if(a==="lg")logAmt();
+  else if(a==="rm")S.log=S.log.filter(l=>l.id!==el.dataset.l);
+  else if(a==="v")S.view=el.dataset.v;
+  else if(a==="ct")ck=el.dataset.v;
+  else if(a==="cr")cr=el.dataset.v;
+  else if(a==="lt")lt=el.dataset.v;
+  else if(a==="add"){if(reps().length<6){const n={id:uid(),date:today(),task:"New rep",mins:Math.max(5,Math.round(S.wk*60/Math.max(S.days,1))),items:[],done:false};S.sessions.push(n);open=n.id}}
+  else if(a==="tg")open=open===s.id?null:s.id;
+  else if(a==="go"){if(T.id===s.id&&T.run){T.run=false;T.left=(T.end-Date.now())/1000}else{if(T.id!==s.id)T.left=s.mins*60;T.id=s.id;T.end=Date.now()+T.left*1000;T.run=true}}
+  else if(a==="rs")T={id:null,end:0,left:0,run:false};
+  else if(a==="ck"){s.items[+el.dataset.i].d=!s.items[+el.dataset.i].d;auto(s)}
+  else if(a==="di"){s.items.splice(+el.dataset.i,1);auto(s)}
+  else if(a==="ai")addItem(s.id);
+  else if(a==="fin"){s.done=true;s.doneOn=today()}
+  else if(a==="dl"){S.sessions=S.sessions.filter(x=>x!==s);open=null}
+  save();render()});
+document.addEventListener("change",e=>{
+  const t=e.target;
+  if(t.dataset.g){const g=t.dataset.g;S[g]=(g==="type"||g==="custom"||g==="targetTxt")?t.value.trim():Math.max(+t.value||1,1)}
+  else if(t.dataset.f){const s=find(t.dataset.s);s[t.dataset.f]=t.dataset.f==="task"?t.value:Math.max(Math.round(+t.value)||1,1)}
+  else return;
+  save();render()});
+document.addEventListener("keydown",e=>{
+  const t=e.target;if(e.key!=="Enter")return;
+  if(t.dataset.q!==undefined)logAmt();
+  else if(t.dataset.add)addItem(t.dataset.add);
+  else return;
+  save();render()});
+render();
+})();
+</script>
+</body>
+</html>
