@@ -4,6 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Revenue Reps</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#2563ff">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Revenue Reps">
 <style>
 :root{--bg:#f4f7fc;--card:#fff;--ink:#2b2b2b;--ink0:#000000;--mute:#6b7a99;--line:#dfe7f5;--blue:#2563ff;--blue2:#5b8dff;--soft:#e8efff;--red:#e5484d;--grn:#16a34a;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -114,6 +121,13 @@ function stats(){
   let proj="";
   if(m>0&&S.log.length){const first=Math.min(...S.log.map(l=>dnum(l.date))),pace=m/Math.max(t-first+1,1);proj=left===0?"Goal hit":addD(Math.ceil(left/pace)).toLocaleDateString(undefined,{day:"numeric",month:"short"})}
   return{hrs:mins/60,n:done.length,tot:S.sessions.length,st,wk,left,proj,done}}
+const installed=!!(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true;
+function backupCard(){
+  const has=S.sessions.length||S.log.length,old=!S.lastBackup||Date.now()-S.lastBackup>14*864e5;
+  const when=S.lastBackup?new Date(S.lastBackup).toLocaleDateString(undefined,{day:"numeric",month:"short"}):"never";
+  return `<div class="card"><div class="lbl">Backup</div><div class="sub" style="margin:8px 0 10px">Your data is stored on this device only. Last backup: <b>${when}</b>.${has&&old?" It’s a good time to back up.":""}</div><div class="row" style="gap:8px"><button class="btn pri" style="flex:1;padding:10px" data-a="ex">Export backup</button><label class="btn" style="flex:1;padding:10px;text-align:center">Import backup<input type="file" accept=".json,application/json" data-imp hidden></label></div>${installed?"":`<div class="sub" style="margin-top:10px">Install it: on iPhone tap Share, then Add to Home Screen. On Android or desktop, use Install in the browser menu. Install before you start so your data stays in one place.</div>`}</div>`}
+function exportData(){const b=new Blob([JSON.stringify(S,null,1)],{type:"application/json"}),a=document.createElement("a"),u=URL.createObjectURL(b);a.href=u;a.download="revenue-reps-backup-"+today()+".json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);S.lastBackup=Date.now()}
+function importData(t){const f=t.files&&t.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d||!Array.isArray(d.sessions)||!Array.isArray(d.log))throw 0;if(confirm("Replace the data on this device with this backup?")){S=Object.assign({},def,d);save();render()}}catch(x){alert("That file isn’t a Revenue Reps backup.")}};r.readAsText(f);t.value=""}
 function render(){
   const m=made(),t=tgt(),p=t.n>0?Math.min(Math.max(m,0)/t.n,1):0,X=stats(),ty=label(),list=reps();
   let h=`<div class="card amt"><div class="row"><div><h2>Amount: ${fmt(t.n)}</h2><em>${t.suf?"":ty+" "}needed to hit the goal</em></div><button class="btn" data-a="eg">${editG?"Done":"Edit"}</button></div>`;
@@ -146,7 +160,7 @@ function render(){
   else{const lg=S.log.slice().sort((a,b)=>a.date<b.date?1:-1).slice(0,12);
     if(!lg.length)h+=`<div class="sub">Log a result with the box at the top and it shows up here.</div>`;
     lg.forEach(l=>{h+=`<div class="log"><span>${l.amt<0?"Adjustment":"Logged"}<br><span class="sub">${l.date}</span></span><span><b>${l.amt<0?"":"+"}${fmt(l.amt)}</b> <button class="btn" data-a="rm" data-l="${l.id}">×</button></span></div>`})}
-  h+=`</div>`;app.innerHTML=h}
+  h+=`</div>`;h+=backupCard();app.innerHTML=h}
 const auto=s=>{const d=s.items.length>0&&s.items.every(i=>i.d);if(d&&!s.done){s.done=true;s.doneOn=today()}else if(!d&&s.done){s.done=false;delete s.doneOn}};
 const logAmt=()=>{const i=document.querySelector("[data-q]"),v=parseFloat(i&&i.value);if(!v)return;S.log.push({id:uid(),date:today(),amt:v})};
 const addItem=id=>{const i=document.querySelector('[data-add="'+id+'"]'),s=find(id);if(!s||!i||!i.value.trim())return;s.items.push({t:i.value.trim(),d:false});auto(s)};
@@ -156,6 +170,7 @@ setInterval(()=>{if(!T.run)return;T.left=(T.end-Date.now())/1000;const e=documen
 document.addEventListener("click",e=>{
   const el=e.target.closest("[data-a]");if(!el)return;const a=el.dataset.a,s=find(el.dataset.s);
   if(a==="eg")editG=!editG;
+  else if(a==="ex")exportData();
   else if(a==="lg")logAmt();
   else if(a==="rm")S.log=S.log.filter(l=>l.id!==el.dataset.l);
   else if(a==="v")S.view=el.dataset.v;
@@ -174,6 +189,7 @@ document.addEventListener("click",e=>{
   save();render()});
 document.addEventListener("change",e=>{
   const t=e.target;
+  if(t.dataset.imp!==undefined){importData(t);return}
   if(t.dataset.g){const g=t.dataset.g;S[g]=(g==="type"||g==="custom"||g==="targetTxt")?t.value.trim():Math.max(+t.value||1,1)}
   else if(t.dataset.f){const s=find(t.dataset.s);s[t.dataset.f]=t.dataset.f==="task"?t.value:Math.max(Math.round(+t.value)||1,1)}
   else return;
@@ -185,6 +201,8 @@ document.addEventListener("keydown",e=>{
   else return;
   save();render()});
 render();
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
+if("serviceWorker" in navigator&&/^https:|^http:\/\/localhost/.test(location.href))window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 })();
 </script>
 </body>
